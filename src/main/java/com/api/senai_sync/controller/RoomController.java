@@ -1,4 +1,3 @@
-
 package com.api.senai_sync.controller;
 
 import com.api.senai_sync.entity.Room;
@@ -35,21 +34,22 @@ public class RoomController {
 
     // criar Salas
     // Só o master e o admin podem criar salas
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasAnyAuthority('ROLE_MASTER', 'ROLE_ADMIN')")
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
+        System.out.println("Recebendo sala: " + room);
         try {
             Room createdRoom = roomService.createRoom(room);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
 
         } catch (Exception e) {
+            System.err.println("Erro ao criar sala: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+    
     // update Room
     // Só o master e o admin podem atualizar salas
-
     @PreAuthorize("hasAnyAuthority('ROLE_MASTER', 'ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody Room updatedRoom) {
@@ -72,5 +72,13 @@ public class RoomController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    // Deletar todas as salas 
+    @PreAuthorize("hasAnyAuthority('ROLE_MASTER', 'ROLE_ADMIN')") 
+    @DeleteMapping("/deleteAll") 
+    public ResponseEntity<Void> deleteAllRooms() { 
+        roomService.deleteAllRooms(); 
+        return ResponseEntity.noContent().build(); 
     }
 }

@@ -6,5 +6,6 @@ import com.api.senai_sync.entity.Room;
 
 
 
+
 public interface RoomRepository extends JpaRepository<Room, Long> {
 }

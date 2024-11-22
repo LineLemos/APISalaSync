@@ -1,12 +1,14 @@
 package com.api.senai_sync.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,9 +28,6 @@ public class Room {
     @Column(nullable = false)
     private int seatAmount;
 
-    @Column
-    private String equipment;
-
-    @Column ( nullable = false)
-    private String imgUrl;
+   @ElementCollection
+    private List<String> equipment;
 }
